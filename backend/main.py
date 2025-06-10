@@ -6,6 +6,8 @@ from datetime import datetime, timedelta
 from typing import List, Optional
 import os
 from dotenv import load_dotenv
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
 
 from database import get_db, engine
 from models import Base, BlogPost, PortfolioItem
@@ -60,6 +62,10 @@ app.add_middleware(
 
 security = HTTPBearer()
 
+# 需要修改
+limiter = Limiter(key_func=get_remote_address)
+app.state.limiter = limiter
+
 # 根路由
 @app.get("/")
 async def root():
@@ -72,7 +78,8 @@ async def health_check():
 
 # 認證路由
 @app.post("/auth/login", response_model=Token)
-async def login(login_request: LoginRequest):
+@limiter.limit("5/minute")  # 每分鐘最多5次登入嘗試
+async def login(request: Request, login_request: LoginRequest):
     """管理員登入"""
     user = authenticate_user(login_request.username, login_request.password)
     if not user:

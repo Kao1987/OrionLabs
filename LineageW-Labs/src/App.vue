@@ -1,3 +1,16 @@
+<!--
+/**
+ * OrionLabs 轉職計算器
+ * Copyright (c) 2025 Orion
+ *
+ * 本代碼受版權保護，未經授權不得用於商業用途
+ * This code is protected by copyright, unauthorized commercial use is prohibited
+ *
+ * GitHub: https://github.com/kao1987/OrionLabs
+ * Website: https://orionlabs.pro
+ */
+-->
+
 <template>
   <div id="app" :class="{ 'dark-theme': isDarkTheme }">
     <AppHeader />

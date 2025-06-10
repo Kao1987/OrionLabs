@@ -1,4 +1,4 @@
-lineagewLabs/
+lineagew-labs/
 ├── 📄 配置文件
 │   ├── package.json              # 項目配置與依賴
 │   ├── vite.config.ts            # Vite 構建配置

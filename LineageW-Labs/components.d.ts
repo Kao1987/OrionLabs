@@ -12,6 +12,7 @@ declare module 'vue' {
     AppHeader: typeof import('./modules/shared/components/AppHeader.vue')['default']
     AppModal: typeof import('./modules/shared/components/AppModal.vue')['default']
     AppNavigation: typeof import('./modules/shared/components/AppNavigation.vue')['default']
+    CartItem: typeof import('./modules/job-change/components/CartItem.vue')['default']
     FeatureCard: typeof import('./modules/shared/components/FeatureCard.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     HelpModal: typeof import('./modules/pet-evaluate/components/HelpModal.vue')['default']
@@ -29,5 +30,6 @@ declare module 'vue' {
     PetStatsInput: typeof import('./modules/pet-evaluate/components/PetStatsInput.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TermsModal: typeof import('./src/components/TermsModal.vue')['default']
   }
 }

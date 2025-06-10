@@ -1,4 +1,6 @@
-# lineagewLabs
+# LineageW-Labs (天堂W實驗室)
+
+**🏰 天堂W遊戲工具實驗室 | Lineage W Game Tools Laboratory**
 
 This template should help get you started developing with Vue 3 in Vite.
 

@@ -1,11 +1,29 @@
+<!--
+/**
+ * OrionLabs 轉職計算器
+ * Copyright (c) 2025 Orion
+ *
+ * 本代碼受版權保護，未經授權不得用於商業用途
+ * This code is protected by copyright, unauthorized commercial use is prohibited
+ *
+ * GitHub: https://github.com/kao1987/OrionLabs
+ * Website: https://orionlabs.pro
+ */
+-->
+
 <template>
   <div class="job-change-calculator">
-    <!-- 標題區域 -->
+    <!-- Header -->
     <header class="calculator-header">
-      <h2>{{ t('jobChange.title') }}</h2>
-      <p class="description">
-        {{ t('jobChange.subtitle') }}
-      </p>
+      <div class="header-content">
+        <div class="title-section">
+          <h1 class="main-title">
+            🏰 {{ t('jobChange.title') }}
+            <span class="subtitle">{{ t('jobChange.subtitle') }}</span>
+          </h1>
+          <p class="description">{{ t('jobChange.description') }}</p>
+        </div>
+      </div>
     </header>
 
     <!-- 裝備選擇器 -->
@@ -282,7 +300,7 @@
           <h4>📝 與我聯繫</h4>
           <p>有任何建議或意見嗎？歡迎填寫回饋表單！</p>
           <a
-            href="mailto:orion@lineagewlabs.com?subject=轉職計算器意見回饋&body=親愛的Orion，%0A%0A我對轉職計算器有以下建議：%0A%0A"
+            href="mailto:orion@lineagew-labs.com?subject=轉職計算器意見回饋&body=親愛的Orion，%0A%0A我對轉職計算器有以下建議：%0A%0A"
             class="feedback-link"
           >
             📧 點擊寄送意見回饋
@@ -290,11 +308,65 @@
         </div>
 
         <div class="footer-info">
+          <div class="terms-section">
+            <button @click="showTermsModal = true" class="terms-link">📜 使用條款</button>
+            <span class="separator">|</span>
+            <a href="https://github.com/kao1987/OrionLabs" target="_blank" class="github-link">
+              🔗 GitHub
+            </a>
+          </div>
           <div class="author-info">Created by <strong>Orion</strong></div>
           <div class="version-info">Last Update: {{ formatDate(new Date()) }} V3.0</div>
+          <div class="copyright-info">© 2025 OrionLabs. All rights reserved.</div>
         </div>
       </div>
     </footer>
+
+    <!-- 使用條款彈窗 (點擊時才顯示) -->
+    <div v-if="showTermsModal" class="modal-overlay" @click="showTermsModal = false">
+      <div class="terms-modal" @click.stop>
+        <div class="modal-header">
+          <h3>📜 OrionLabs 使用條款</h3>
+          <button class="close-btn" @click="showTermsModal = false">✕</button>
+        </div>
+
+        <div class="modal-content">
+          <div class="terms-content">
+            <h4>📋 使用規範</h4>
+            <ol>
+              <li><strong>版權聲明：</strong>本工具為 OrionLabs 原創開發，受著作權法保護</li>
+              <li><strong>使用範圍：</strong>僅供個人學習研究與遊戲輔助使用</li>
+              <li><strong>商業限制：</strong>禁止任何形式的商業用途或營利行為</li>
+              <li><strong>代碼保護：</strong>禁止抄襲、修改、反編譯或二次分發源代碼</li>
+              <li><strong>數據準確性：</strong>計算結果僅供參考，實際費用以遊戲內為準</li>
+            </ol>
+
+            <h4>⚠️ 免責聲明</h4>
+            <ul>
+              <li>本工具提供的數據和計算結果僅供參考</li>
+              <li>OrionLabs 不對使用本工具造成的任何損失承擔責任</li>
+              <li>遊戲規則如有變更，請以官方公告為準</li>
+            </ul>
+
+            <h4>📞 聯繫方式</h4>
+            <p>如有疑問或建議，請透過以下方式聯繫：</p>
+            <ul>
+              <li>Email: orion@lineagew-labs.com</li>
+              <li>Website: <a href="https://orionlabs.pro" target="_blank">orionlabs.pro</a></li>
+              <li>
+                GitHub:
+                <a href="https://github.com/kao1987/OrionLabs" target="_blank">kao1987/OrionLabs</a>
+              </li>
+            </ul>
+
+            <div class="terms-footer">
+              <p><strong>最後更新：2025年1月</strong></p>
+              <p>繼續使用本工具即表示您同意以上條款</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -347,6 +419,7 @@ const selectedSubtype = ref<string>('')
 const selectedQuality = ref<string>('')
 const selectedQuantity = ref<number>(1)
 const showHelpModal = ref<boolean>(false)
+const showTermsModal = ref<boolean>(false)
 
 // 計算屬性
 const validation = computed(() => ({
@@ -1131,6 +1204,97 @@ watch(
 }
 
 .version-info {
+  color: var(--text-color, #6c757d);
+  font-size: 0.9rem;
+}
+
+.terms-section {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.terms-link {
+  background: none;
+  border: none;
+  color: var(--text-color, #6c757d);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+}
+
+.separator {
+  color: var(--text-color, #6c757d);
+  font-size: 0.9rem;
+}
+
+.github-link {
+  color: var(--text-color, #6c757d);
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.copyright-info {
+  color: var(--text-color, #6c757d);
+  font-size: 0.9rem;
+}
+
+/* 使用條款彈窗樣式 */
+.terms-modal {
+  background: var(--card-bg, white);
+  border-radius: 16px;
+  max-width: 700px;
+  width: 90%;
+  max-height: 80vh;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideInUp 0.3s ease-out;
+}
+
+.terms-content {
+  line-height: 1.6;
+}
+
+.terms-content h4 {
+  color: var(--text-color, #2c3e50);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 1.5rem 0 1rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.terms-content ol,
+.terms-content ul {
+  padding-left: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.terms-content li {
+  margin-bottom: 0.75rem;
+}
+
+.terms-content a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.terms-content a:hover {
+  text-decoration: underline;
+}
+
+.terms-footer {
+  background: var(--card-bg, #f8f9fa);
+  padding: 1rem;
+  margin: 1.5rem -1rem -1rem -1rem;
+  border-radius: 0 0 8px 8px;
+  text-align: center;
+  border-top: 1px solid #e9ecef;
+}
+
+.terms-footer p {
+  margin: 0.25rem 0;
   color: var(--text-color, #6c757d);
   font-size: 0.9rem;
 }
