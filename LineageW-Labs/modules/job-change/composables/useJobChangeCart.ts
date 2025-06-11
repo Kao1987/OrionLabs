@@ -3,13 +3,13 @@
  * 完整移轉自 assets/js/modules/jobChangeCalculator.js 的購物車功能
  */
 import { ref, computed, watch } from 'vue'
-import type { 
-  CartItem, 
-  EquipmentType, 
-  CashEquipmentType, 
+import type {
+  CartItem,
+  EquipmentType,
+  CashEquipmentType,
   QualityLevel,
   EquipmentCategory,
-  CartItemInput
+  CartItemInput,
 } from '../types'
 import { calculateItemCost, calculateCartCost } from '../utils/calculations'
 import { BASE_COST } from '../utils/costData'
@@ -25,14 +25,14 @@ export function useJobChangeCart() {
     equipmentType: '',
     subtype: '',
     quality: '',
-    quantity: 1
+    quantity: 1,
   })
 
   // 計算屬性
   const totalCoinCost = computed(() => calculateCartCost(cartItems.value))
   const itemCount = computed(() => cartItems.value.length)
-  const totalQuantity = computed(() => 
-    cartItems.value.reduce((sum, item) => sum + item.quantity, 0)
+  const totalQuantity = computed(() =>
+    cartItems.value.reduce((sum, item) => sum + item.quantity, 0),
   )
 
   const isEmpty = computed(() => cartItems.value.length === 0)
@@ -46,7 +46,7 @@ export function useJobChangeCart() {
     max: number
   }> {
     const options: Array<{ value: string; text: string; max: number }> = []
-    
+
     switch (equipmentType) {
       case 'armor':
         options.push(
@@ -57,7 +57,7 @@ export function useJobChangeCart() {
           { value: 'boots', text: '鞋子', max: 2 },
           { value: 'gloves', text: '手套', max: 2 },
           { value: 'legs', text: '脛甲', max: 2 },
-          { value: 'belt', text: '腰帶', max: 2 }
+          { value: 'belt', text: '腰帶', max: 2 },
         )
         break
       case 'accessory':
@@ -66,23 +66,21 @@ export function useJobChangeCart() {
           { value: 'earring', text: '耳環', max: 2 },
           { value: 'crack-earring', text: '裂痕耳環', max: 1 },
           { value: 'ring', text: '戒指', max: 4 },
-          { value: 'rune', text: '符石', max: 2 }
+          { value: 'rune', text: '符石', max: 2 },
         )
         break
       case 'cash':
         options.push(
           { value: 'shirt', text: 'T恤', max: 3 },
           { value: 'shoulder', text: '肩甲', max: 1 },
-          { value: 'mask', text: '面甲', max: 1 }
+          { value: 'mask', text: '面甲', max: 1 },
         )
         break
       case 'weapon':
-        options.push(
-          { value: 'weapon', text: '武器', max: 3 }
-        )
+        options.push({ value: 'weapon', text: '武器', max: 3 })
         break
     }
-    
+
     return options
   }
 
@@ -103,63 +101,61 @@ export function useJobChangeCart() {
       cost: number | 'complex'
       max: number
     }> = []
-    
+
     // 判斷裝備類型
     if (subtypeValue === 'rune') {
       // 符石只有英雄和傳說
       options.push(
         { value: 'hero', text: '英雄', quality: 'hero', cost: 9, max: 2 },
-        { value: 'legend', text: '傳說', quality: 'legend', cost: 27, max: 2 }
+        { value: 'legend', text: '傳說', quality: 'legend', cost: 27, max: 2 },
       )
     } else if (subtypeValue === 'crack-earring') {
       // 裂痕耳環只有稀有及英雄
       options.push(
         { value: 'rare', text: '稀有', quality: 'rare', cost: 1, max: 1 },
-        { value: 'hero', text: '英雄', quality: 'hero', cost: 9, max: 1 }
+        { value: 'hero', text: '英雄', quality: 'hero', cost: 9, max: 1 },
       )
     } else if (['shirt', 'shoulder', 'mask'].includes(subtypeValue)) {
       // 商城裝備沒有品質概念
       const maxCount = getSubtypeMaxCount(subtypeValue)
-      options.push(
-        { value: 'normal', text: '一般', quality: 'mythic', cost: 5, max: maxCount }
-      )
+      options.push({ value: 'normal', text: '一般', quality: 'mythic', cost: 5, max: maxCount })
     } else {
       // 其他一般裝備四種品質
       const maxCount = getSubtypeMaxCount(subtypeValue)
       const isWeapon = subtypeValue === 'weapon'
-      
+
       options.push(
-        { 
-          value: 'rare', 
-          text: '稀有', 
-          quality: 'rare', 
-          cost: 1, 
-          max: isWeapon ? 3 : maxCount
+        {
+          value: 'rare',
+          text: '稀有',
+          quality: 'rare',
+          cost: 1,
+          max: isWeapon ? 3 : maxCount,
         },
-        { 
-          value: 'hero', 
-          text: '英雄', 
-          quality: 'hero', 
-          cost: 9, 
-          max: isWeapon ? 3 : maxCount
+        {
+          value: 'hero',
+          text: '英雄',
+          quality: 'hero',
+          cost: 9,
+          max: isWeapon ? 3 : maxCount,
         },
-        { 
-          value: 'legend', 
-          text: '傳說', 
-          quality: 'legend', 
-          cost: 27, 
-          max: isWeapon ? 3 : maxCount
+        {
+          value: 'legend',
+          text: '傳說',
+          quality: 'legend',
+          cost: 27,
+          max: isWeapon ? 3 : maxCount,
         },
-        { 
-          value: 'mythic', 
-          text: '神話', 
-          quality: 'mythic', 
-          cost: 81, 
-          max: isWeapon ? 3 : maxCount
-        }
+        {
+          value: 'mythic',
+          text: '神話',
+          quality: 'mythic',
+          cost: 81,
+          max: isWeapon ? 3 : maxCount,
+        },
       )
     }
-    
+
     return options
   }
 
@@ -168,11 +164,23 @@ export function useJobChangeCart() {
    */
   function getSubtypeMaxCount(subtypeValue: string): number {
     const maxCounts: Record<string, number> = {
-      'weapon': 3,
-      'helmet': 2, 'cloak': 2, 'chest': 2, 'arms': 2,
-      'boots': 2, 'gloves': 2, 'legs': 2, 'belt': 2,
-      'necklace': 2, 'earring': 2, 'crack-earring': 1, 'ring': 4, 'rune': 2,
-      'shirt': 3, 'shoulder': 1, 'mask': 1
+      weapon: 3,
+      helmet: 2,
+      cloak: 2,
+      chest: 2,
+      arms: 2,
+      boots: 2,
+      gloves: 2,
+      legs: 2,
+      belt: 2,
+      necklace: 2,
+      earring: 2,
+      'crack-earring': 1,
+      ring: 4,
+      rune: 2,
+      shirt: 3,
+      shoulder: 1,
+      mask: 1,
     }
     return maxCounts[subtypeValue] || 1
   }
@@ -182,7 +190,7 @@ export function useJobChangeCart() {
    */
   function validateCartInput(): boolean {
     const { equipmentType, subtype, quality, quantity } = cartInput.value
-    
+
     // 檢查必填欄位
     if (!equipmentType || !subtype || !quality || quantity <= 0) {
       return false
@@ -212,7 +220,7 @@ export function useJobChangeCart() {
       const cost = calculateItemCost(
         subtype as EquipmentType | CashEquipmentType,
         quality as QualityLevel | 'cash',
-        quantity
+        quantity,
       )
 
       // 創建購物車項目
@@ -226,12 +234,12 @@ export function useJobChangeCart() {
         unitCost: cost / quantity,
         timestamp: Date.now(),
         name: getItemDisplayName(subtype, quality),
-        icon: getEquipmentIcon(equipmentType as EquipmentCategory)
+        icon: getEquipmentIcon(equipmentType as EquipmentCategory),
       }
 
       // 檢查是否已存在相同項目
-      const existingIndex = cartItems.value.findIndex(item => 
-        item.subtype === cartItem.subtype && item.quality === cartItem.quality
+      const existingIndex = cartItems.value.findIndex(
+        (item) => item.subtype === cartItem.subtype && item.quality === cartItem.quality,
       )
 
       if (existingIndex >= 0) {
@@ -265,7 +273,7 @@ export function useJobChangeCart() {
         subtype,
         quality,
         quantity,
-        cost
+        cost,
       })
 
       return true
@@ -279,7 +287,7 @@ export function useJobChangeCart() {
    * 移除購物車項目
    */
   function removeCartItem(itemId: string): void {
-    const index = cartItems.value.findIndex(item => item.id === itemId)
+    const index = cartItems.value.findIndex((item) => item.id === itemId)
     if (index >= 0) {
       const removedItem = cartItems.value[index]
       cartItems.value.splice(index, 1)
@@ -290,7 +298,7 @@ export function useJobChangeCart() {
         value: removedItem.quantity,
         equipment_type: removedItem.equipmentType,
         subtype: removedItem.subtype,
-        quality: removedItem.quality
+        quality: removedItem.quality,
       })
     }
   }
@@ -305,7 +313,7 @@ export function useJobChangeCart() {
     trackEvent('cart_cleared', {
       category: 'Job Change Calculator',
       label: 'manual_clear',
-      value: itemCount
+      value: itemCount,
     })
   }
 
@@ -313,7 +321,7 @@ export function useJobChangeCart() {
    * 更新購物車項目數量
    */
   function updateCartItemQuantity(itemId: string, newQuantity: number): void {
-    const item = cartItems.value.find(item => item.id === itemId)
+    const item = cartItems.value.find((item) => item.id === itemId)
     if (!item) return
 
     const maxCount = getSubtypeMaxCount(item.subtype)
@@ -331,7 +339,7 @@ export function useJobChangeCart() {
       equipmentType: '',
       subtype: '',
       quality: '',
-      quantity: 1
+      quantity: 1,
     }
   }
 
@@ -341,19 +349,30 @@ export function useJobChangeCart() {
   function getItemDisplayName(subtype: string, quality: string): string {
     const subtypeNames: Record<string, string> = {
       weapon: '武器',
-      helmet: '頭盔', cloak: '斗篷', chest: '盔甲', arms: '臂甲',
-      boots: '鞋子', gloves: '手套', legs: '脛甲', belt: '腰帶',
-      necklace: '項鍊', earring: '耳環', 'crack-earring': '裂痕耳環',
-      ring: '戒指', rune: '符石',
-      shirt: 'T恤', shoulder: '肩甲', mask: '面甲'
+      helmet: '頭盔',
+      cloak: '斗篷',
+      chest: '盔甲',
+      arms: '臂甲',
+      boots: '鞋子',
+      gloves: '手套',
+      legs: '脛甲',
+      belt: '腰帶',
+      necklace: '項鍊',
+      earring: '耳環',
+      'crack-earring': '裂痕耳環',
+      ring: '戒指',
+      rune: '符石',
+      shirt: 'T恤',
+      shoulder: '肩甲',
+      mask: '面甲',
     }
 
     const qualityNames: Record<string, string> = {
       rare: '稀有',
-      hero: '英雄', 
+      hero: '英雄',
       legend: '傳說',
       mythic: '神話',
-      normal: '一般'
+      normal: '一般',
     }
 
     return `${qualityNames[quality] || quality} ${subtypeNames[subtype] || subtype}`
@@ -367,7 +386,9 @@ export function useJobChangeCart() {
       weapon: '⚔️',
       armor: '🛡️',
       accessory: '💍',
-      cash: '👕'
+      cash: '👕',
+      skill: '📚',
+      spell: '✨',
     }
     return icons[equipmentType] || '📦'
   }
@@ -381,7 +402,7 @@ export function useJobChangeCart() {
       hero: 'text-purple-600',
       legend: 'text-orange-600',
       mythic: 'text-red-600',
-      normal: 'text-gray-600'
+      normal: 'text-gray-600',
     }
     return classNames[quality] || 'text-gray-600'
   }
@@ -407,7 +428,7 @@ export function useJobChangeCart() {
       packageDiscount,
       finalCoinCost,
       baseCost,
-      totalCost
+      totalCost,
     }
   }
 
@@ -419,7 +440,7 @@ export function useJobChangeCart() {
       items: cartItems.value,
       totalCost: totalCoinCost.value,
       timestamp: Date.now(),
-      version: '1.0'
+      version: '1.0',
     }
     return JSON.stringify(data, null, 2)
   }
@@ -435,7 +456,7 @@ export function useJobChangeCart() {
         trackEvent('cart_imported', {
           category: 'Job Change Calculator',
           label: 'data_import',
-          value: data.items.length
+          value: data.items.length,
         })
         return true
       }
@@ -446,14 +467,18 @@ export function useJobChangeCart() {
   }
 
   // 監聽購物車變化
-  watch(cartItems, (newItems) => {
-    // 可以在這裡添加自動保存邏輯
-    if (newItems.length > 0) {
-      localStorage.setItem('job_change_cart', JSON.stringify(newItems))
-    } else {
-      localStorage.removeItem('job_change_cart')
-    }
-  }, { deep: true })
+  watch(
+    cartItems,
+    (newItems) => {
+      // 可以在這裡添加自動保存邏輯
+      if (newItems.length > 0) {
+        localStorage.setItem('job_change_cart', JSON.stringify(newItems))
+      } else {
+        localStorage.removeItem('job_change_cart')
+      }
+    },
+    { deep: true },
+  )
 
   // 初始化時載入保存的購物車
   function loadSavedCart(): void {
@@ -495,6 +520,6 @@ export function useJobChangeCart() {
     calculateTotalJobChangeCost,
     exportCartData,
     importCartData,
-    loadSavedCart
+    loadSavedCart,
   }
-} 
+}

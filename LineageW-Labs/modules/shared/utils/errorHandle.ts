@@ -91,7 +91,7 @@ export function logError(error: Error | AppError | unknown, context?: string): v
   console.error('Application Error:', errorLog)
 
   // 在生產環境中發送到錯誤追蹤服務
-  if (process.env.NODE_ENV === 'production') {
+  if (import.meta.env.MODE === 'production') {
     // 例如：Sentry.captureException(error)
   }
 }

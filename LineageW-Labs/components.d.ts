@@ -30,6 +30,5 @@ declare module 'vue' {
     PetStatsInput: typeof import('./modules/pet-evaluate/components/PetStatsInput.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    TermsModal: typeof import('./src/components/TermsModal.vue')['default']
   }
 }

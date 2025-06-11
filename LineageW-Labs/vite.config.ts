@@ -7,6 +7,7 @@ import Components from 'unplugin-vue-components/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: process.env.NODE_ENV === 'production' ? '/LineageW-Labs/' : '/',
   plugins: [
     vue(),
     vueDevTools(),
@@ -65,13 +66,5 @@ export default defineConfig({
   },
   server: {
     port: 3000,
-    proxy: {
-      // 預留後端 API 代理
-      '/api': {
-        target: 'http://localhost:8000', // FastAPI 後端地址
-        changeOrigin: true,
-        secure: false,
-      },
-    },
   },
 })
