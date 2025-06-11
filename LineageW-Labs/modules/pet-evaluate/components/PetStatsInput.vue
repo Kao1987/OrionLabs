@@ -34,10 +34,13 @@
 
       <div class="stats-grid">
         <!-- 忍耐力 -->
-        <div class="stat-input">
+        <div class="stat-input" :class="{ 'main-stat': isMainStat('endurance') }">
           <div class="stat-title">
             <label for="stat-endurance">
               {{ t('stats.endurance', '忍耐力') }}
+              <span v-if="isMainStat('endurance')" class="main-stat-indicator">{{
+                t('pets.mainStat', '主屬性')
+              }}</span>
             </label>
             <small class="stat-desc">
               {{ t('stats.enduranceDesc', '5點=1物防') }}
@@ -56,10 +59,13 @@
         </div>
 
         <!-- 忠誠心 -->
-        <div class="stat-input">
+        <div class="stat-input" :class="{ 'main-stat': isMainStat('loyalty') }">
           <div class="stat-title">
             <label for="stat-loyalty">
               {{ t('stats.loyalty', '忠誠心') }}
+              <span v-if="isMainStat('loyalty')" class="main-stat-indicator">{{
+                t('pets.mainStat', '主屬性')
+              }}</span>
             </label>
             <small class="stat-desc">
               {{ t('stats.loyaltyDesc', '5點=1近/遠/魔命中') }}
@@ -78,10 +84,13 @@
         </div>
 
         <!-- 速度 -->
-        <div class="stat-input">
+        <div class="stat-input" :class="{ 'main-stat': isMainStat('speed') }">
           <div class="stat-title">
             <label for="stat-speed">
               {{ t('stats.speed', '速度') }}
+              <span v-if="isMainStat('speed')" class="main-stat-indicator">{{
+                t('pets.mainStat', '主屬性')
+              }}</span>
             </label>
             <small class="stat-desc">
               {{ t('stats.speedDesc', '10點=1近/遠迴避') }}
@@ -120,10 +129,13 @@
         </div>
 
         <!-- 體力 -->
-        <div class="stat-input">
+        <div class="stat-input" :class="{ 'main-stat': isMainStat('hp') }">
           <div class="stat-title">
             <label for="stat-hp">
               {{ t('stats.hp', '體力') }}
+              <span v-if="isMainStat('hp')" class="main-stat-indicator">{{
+                t('pets.mainStat', '主屬性')
+              }}</span>
             </label>
             <small class="stat-desc">
               {{ t('stats.hpDesc', '1點=30HP') }}
@@ -170,9 +182,15 @@ import { usePetEvaluateStore } from '../stores'
 const { t } = useI18n()
 
 const petStore = usePetEvaluateStore()
-const { petLevel, inputStats, expectedStats, canCalculate, isCalculating } = storeToRefs(petStore)
+const { petLevel, inputStats, expectedStats, canCalculate, isCalculating, selectedPet } =
+  storeToRefs(petStore)
 
 const { setPetLevel, resetInputStats, performCalculation } = petStore
+
+// 判斷是否為主屬性
+function isMainStat(statName: string): boolean {
+  return selectedPet.value?.mainStat === statName
+}
 
 function handleLevelChange(event: Event) {
   const target = event.target as HTMLInputElement
@@ -347,7 +365,13 @@ async function handleCalculate() {
 
 .main-stat-indicator {
   color: var(--color-text-warning);
-  margin-left: 4px;
+  margin-left: 8px;
+  background: rgba(255, 200, 1, 0.2);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-shadow: 0 0 5px rgba(255, 200, 1, 0.5);
 }
 
 .stat-desc {

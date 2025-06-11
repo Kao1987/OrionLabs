@@ -23,16 +23,7 @@
           <h3 class="pet-name">{{ t(`pets.${pet.id}`) }}</h3>
           <div class="pet-main-stat">
             <span class="stat-label">{{ t('pets.mainStat') }}：</span>
-            <span class="stat-value">{{ getStatName(pet.mainStat) }}</span>
-          </div>
-
-          <div class="pet-base-stats">
-            <div class="stat-item" v-for="(statValue, statKey) in pet.baseStats" :key="statKey">
-              <span class="stat-name">{{ getStatName(statKey as StatType) }}</span>
-              <span class="stat-number" :class="{ highlight: pet.mainStat === statKey }">
-                {{ pet.mainStat === statKey ? '**' + statValue + '**' : statValue }}
-              </span>
-            </div>
+            <span class="stat-value main-stat-highlight">{{ getStatName(pet.mainStat) }}</span>
           </div>
         </div>
 
@@ -146,35 +137,11 @@ function getStatName(stat: StatType): string {
   margin-left: 5px;
 }
 
-.pet-base-stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-top: 10px;
-}
-
-.stat-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 6px 8px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
-  font-size: 0.85rem;
-}
-
-.stat-name {
-  opacity: 0.9;
-}
-
-.stat-number {
-  font-weight: 600;
-}
-
-.stat-number.highlight {
+.main-stat-highlight {
   color: #ffd700;
   font-weight: 700;
   text-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+  font-size: 1.1rem;
 }
 
 .selected-indicator {
